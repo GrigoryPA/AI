@@ -1,0 +1,5 @@
+﻿  lab1.cpp
+C:\Users\Admin\Desktop\ИИ\lab1\lab1\lab1\TreeNode.h(29,13): warning C4101: index_i: неиспользованная локальная переменная
+C:\Users\Admin\Desktop\ИИ\lab1\lab1\lab1\TreeNode.h(29,22): warning C4101: index_j: неиспользованная локальная переменная
+C:\Users\Admin\Desktop\ИИ\lab1\lab1\lab1\TreeNode.h(33): warning C4715: TreeNode::find_index: значение возвращается не при всех путях выполнения
+  lab1.vcxproj -> C:\Users\Admin\Desktop\ИИ\lab1\lab1\Debug\lab1.exe
