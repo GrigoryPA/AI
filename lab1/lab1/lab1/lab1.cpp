@@ -13,7 +13,7 @@ int main()
     int finish_position[3][3] = { {1,2,3},{4,-1,5},{6,7,8} };
     int finish_position2[3][3] = { {4,3,1},{6,-1,2},{7,5,8} };
     
-    iterative_depth_search(start_position, finish_position);
+    depth_search(start_position, finish_position);
     return 0;
 }
 
@@ -40,7 +40,7 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3]) {
             else//раскрыть вершину и добавить новые вершины в дерево поиска;
             {
                 //T->print_way(node);
-                std::cout << node->depth << std::endl;
+                //std::cout << node->depth << std::endl;
                 //std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
 
                 for (int i = 4; i >= 0; --i)//перебор вариантов движения пустоты

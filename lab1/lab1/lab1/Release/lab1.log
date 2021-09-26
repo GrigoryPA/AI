@@ -1,0 +1,9 @@
+﻿  lab1.cpp
+C:\Users\Admin\Desktop\artificial intelligence\AI\lab1\lab1\lab1\TreeNode.h(29,13): warning C4101: index_i: неиспользованная локальная переменная
+C:\Users\Admin\Desktop\artificial intelligence\AI\lab1\lab1\lab1\TreeNode.h(29,22): warning C4101: index_j: неиспользованная локальная переменная
+  Создание кода
+  0 of 150 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  lab1.vcxproj -> C:\Users\Admin\Desktop\artificial intelligence\AI\lab1\lab1\Release\lab1.exe
