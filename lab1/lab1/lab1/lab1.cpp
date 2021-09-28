@@ -1,10 +1,11 @@
 ﻿#include <iostream>
 #include <stack>
 #include <algorithm>
+#include <regex>
 #include "Tree.h"
 
-bool depth_search(int start_pos[3][3], int finish_pos[3][3]);
-bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3]);
+bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode);
+bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode);
 TreeNode* new_node(const TreeNode* prev, int l_r_u_d);
 
 int main()
@@ -12,12 +13,25 @@ int main()
     int start_position[3][3] = { {-1,4,3},{6,2,1},{7,5,8} };
     int finish_position[3][3] = { {1,2,3},{4,-1,5},{6,7,8} };
     int finish_position2[3][3] = { {4,3,1},{6,-1,2},{7,5,8} };
+
+    std::regex pattern("[Yy]");
+    std::string mode;
+    std::cout << "Step by step? (Y/n): ";
+    std::cin >> mode;
+   
+    std::regex pattern_s("[Ii]");
+    std::string search;
+    std::cout << "Iterative depth or depth? (I/d): ";
+    std::cin >> search;
     
-    depth_search(start_position, finish_position);
+    if (std::regex_match(search, pattern_s))
+        depth_search(start_position, finish_position, std::regex_match(mode, pattern));
+    else
+        iterative_depth_search(start_position, finish_position, std::regex_match(mode, pattern));
     return 0;
 }
 
-bool depth_search(int start_pos[3][3], int finish_pos[3][3]) {
+bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode) {
     Tree* T = new Tree(start_pos);// Инициализация дерева поиска начальным состоянием задачи
     TreeNode* node = NULL;
     TreeNode* newnode = NULL;
@@ -42,34 +56,43 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3]) {
                 //T->print_way(node);
                 //std::cout << node->depth << std::endl;
                 //std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
-
+                if (mode) {
+                    std::cout << "Depth: " << node->get_depth() << std::endl;
+                    node->print_node();
+                    std::cout << "Possible moves:" << std::endl;
+                }
                 for (int i = 4; i >= 0; --i)//перебор вариантов движения пустоты
                 {
                     newnode = new_node(node, i);
                     if (newnode != NULL)
                     {
-                        //newnode->print_node();
+                        if (mode) 
+                            newnode->print_node();                  
                         if (T->find(newnode->m_data) == false)
                         {
                             T->insert(node, newnode, i);
                             fringer.push(newnode);
-                            //std::cout << "Accepted" << std::endl;
+                            if (mode)
+                                std::cout << "Accepted" << std::endl;
                         }
                         else
                         {
-                            //std::cout << "Denied" << std::endl;
+                            if (mode)
+                                std::cout << "Denied" << std::endl;
                         }
                     }
                 }
                 
-                //system("pause");
-                //system("cls");
+                if (mode) {
+                    system("pause");
+                    system("cls");
+                }
             }
         }
     }
 }
 
-bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3]) {
+bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode) {
     int L = 1;
     TreeNode* node = NULL;
     TreeNode* newnode = NULL;
@@ -82,7 +105,7 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3]) {
         fringer.push(T->m_root);//добавление начального состояния в стек
         while (!fringer.empty()) // основной цикл
         {
-            std::cout << "Depth limit = " << L << std::endl;
+            //std::cout << "Depth limit = " << L << std::endl;
             //выбрать в соответствии со стратегией терминальную вершину(лист) для раскрытия;
             node = fringer.top();
             fringer.pop();
@@ -93,6 +116,11 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3]) {
             }
             else//раскрыть вершину и добавить новые вершины в дерево поиска;
             {
+                if (mode) {
+                    std::cout << "Depth: " << node->get_depth() << std::endl;
+                    node->print_node();
+                    std::cout << "Possible moves:" << std::endl;
+                }
                 //T->print_way(node);
                 //std::cout << node->depth << std::endl;
                 //std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
@@ -104,23 +132,30 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3]) {
                         newnode = new_node(node, i);
                         if (newnode != NULL)
                         {
-                            //newnode->print_node();
+                            if (mode)
+                                newnode->print_node();
                             if (T->find(newnode->m_data) == false)
                             {
                                 T->insert(node, newnode, i);
                                 fringer.push(newnode);
-                                //std::cout << "Accepted" << std::endl;
+                                if (mode)
+                                    std::cout << "Accepted" << std::endl;
                             }
                             else
                             {
-                                //std::cout << "Denied" << std::endl;
+                                if (mode)
+                                    std::cout << "Denied" << std::endl;
                             }
                         }
                     }
                 }
+                else if (mode)
+                    std::cout << "No moves" << std::endl;
 
-                //system("pause");
-                system("cls");
+                if (mode) {
+                    system("pause");
+                    system("cls");
+                }
             }
         }
         delete(T);

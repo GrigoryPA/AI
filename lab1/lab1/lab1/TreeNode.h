@@ -36,6 +36,7 @@ public:
     {
         for (int i = 0; i < 3; ++i)
         {
+            std::cout << "   ";
             for (int j = 0; j < 3; ++j)
             {
                 if (m_data[i][j] == -1)
@@ -45,5 +46,9 @@ public:
             }
             std::cout << std::endl;
         }
+    };
+    int get_depth()
+    {
+        return depth;
     };
 };

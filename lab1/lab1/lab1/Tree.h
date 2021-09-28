@@ -78,6 +78,7 @@ void Tree::insert(TreeNode* prev, TreeNode* newnode, int l_r_u_d)
             prev->m_down = newnode;
     }
 }
+
 void Tree::print_way(TreeNode* prev)
 {
     std::stack<TreeNode*> way;
@@ -88,11 +89,12 @@ void Tree::print_way(TreeNode* prev)
     }
     while (!way.empty())
     {
+        std::cout << "----\\/---- Depth: " << way.top()->depth << std::endl;
         way.top()->print_node();
-        std::cout << "-\\/---D=" << way.top()->depth << std::endl;
         way.pop();
     }
 }
+
 bool Tree::find(int data[3][3])
 {
     std::queue<TreeNode*> Q;
