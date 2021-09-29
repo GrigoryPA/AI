@@ -12,14 +12,13 @@ int main()
 {
     int start_position[3][3] = { {-1,4,3},{6,2,1},{7,5,8} };
     int finish_position[3][3] = { {1,2,3},{4,-1,5},{6,7,8} };
-    int finish_position2[3][3] = { {4,3,1},{6,-1,2},{7,5,8} };
 
     std::regex pattern("[Yy]");
     std::string mode;
     std::cout << "Step by step? (Y/n): ";
     std::cin >> mode;
    
-    std::regex pattern_s("[Ii]");
+    std::regex pattern_s("[Dd]");
     std::string search;
     std::cout << "Iterative depth or depth? (I/d): ";
     std::cin >> search;
@@ -28,6 +27,9 @@ int main()
         depth_search(start_position, finish_position, std::regex_match(mode, pattern));
     else
         iterative_depth_search(start_position, finish_position, std::regex_match(mode, pattern));
+
+    system("pause");
+    system("cls");
     return 0;
 }
 
