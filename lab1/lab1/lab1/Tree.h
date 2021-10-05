@@ -2,6 +2,7 @@
 #include "TreeNode.h"
 #include <iostream>
 #include <queue>
+#include <queue>
 
 enum { RIGHT = 1, LEFT = 2, UP = 3, DOWN = 4 };
 
@@ -126,6 +127,34 @@ bool Tree::find(int data[3][3])
         }
     }
     return false;
+}
+
+// Gets count of nodes below given node, including itself
+unsigned int get_node_count(TreeNode* node)
+{
+    // If tree is empty
+    if (!node)
+        return 0;
+    std::queue<TreeNode*> q;
+
+    // Do level order traversal starting from root
+    int count = 0; // Initialize count of full nodes
+    q.push(node);
+    while (!q.empty())
+    {
+        TreeNode* temp = q.front();
+        q.pop();
+
+        if (temp->m_left != NULL)
+            q.push(temp->m_left);
+        if (temp->m_right != NULL)
+            q.push(temp->m_right);
+        if (temp->m_up != NULL)
+            q.push(temp->m_up);
+        if (temp->m_down != NULL)
+            q.push(temp->m_down);
+    }
+    return count;
 }
 /*void Tree::print() // вывод дерева полностью, но реализован для единичных данных типа int
 {

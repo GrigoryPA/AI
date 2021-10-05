@@ -43,3 +43,16 @@ lab1/lab1/lab1/Release/vc142.pdb
 lab1/lab1/Release/lab1.pdb
 *.pdb
 *.recipe
+*.exe
+*.exe
+*.pdb
+*.ilk
+*.log
+*.obj
+*.tlog
+*.idb
+*.pdb
+*.exe
+*.vcxproj
+*.recipe
+*.ipdb
