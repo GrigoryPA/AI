@@ -8,9 +8,10 @@
 bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode);
 bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode);
 TreeNode* new_node(const TreeNode* prev, int l_r_u_d);
-void cur_step_data(std::stack<TreeNode*> fringer);
-bool continue_();
-void results(int node_count, int step_count);
+void step_cur_node(TreeNode* node);
+void step_cur_data(std::stack<TreeNode*> fringer);
+bool step_continue();
+void step_results(int node_count, int step_count);
 
 int main()
 {
@@ -49,7 +50,7 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 	while (true) // основной цикл
 	{
 		if (fringer.empty()) {//нет вершин - кандидатов для раскрытия
-			results(node_count, step_count);
+			step_results(node_count, step_count);
 			return false; // решение не найдено !
 		}
 		else
@@ -61,7 +62,7 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 			if (memcmp(node->m_data, finish_pos, 3 * 3 * sizeof(int)) == 0)//вершина содержит целевое состояние
 			{
 				T->print_way(node);
-				results(node_count, step_count);
+				step_results(node_count, step_count);
 				return true;
 			}
 			else//раскрыть вершину и добавить новые вершины в дерево поиска;
@@ -70,9 +71,7 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 				//std::cout << node->depth << std::endl;
 				//std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
 				if (mode) {
-					std::cout << "Depth: " << node->get_depth() << std::endl;
-					node->print_node();
-					std::cout << std::endl << "Possible moves:" << std::endl;
+					step_cur_node(node);
 				}
 				for (int i = 4; i >= 0; --i)//перебор вариантов движения пустоты
 				{
@@ -98,8 +97,8 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 				}
 
 				if (mode) {
-					cur_step_data(fringer);
-					mode = continue_();
+					step_cur_data(fringer);
+					mode = step_continue();
 					system("cls");
 				}
 			}
@@ -131,15 +130,13 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 			if (memcmp(node->m_data, finish_pos, 3 * 3 * sizeof(int)) == 0)//вершина содержит целевое состояние
 			{
 				T->print_way(node);
-				results(node_count, step_count);
+				step_results(node_count, step_count);
 				return true;
 			}
 			else//раскрыть вершину и добавить новые вершины в дерево поиска;
 			{
 				if (mode) {
-					std::cout << "Depth: " << node->get_depth() << std::endl;
-					node->print_node();
-					std::cout << "Possible moves:" << std::endl;
+					step_cur_node(node);
 				}
 				//T->print_way(node);
 				//std::cout << node->depth << std::endl;
@@ -174,8 +171,8 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 					std::cout << "No moves" << std::endl;
 
 				if (mode) {
-					cur_step_data(fringer);
-					mode = continue_();
+					step_cur_data(fringer);
+					mode = step_continue();
 					system("cls");
 				}
 			}
@@ -183,7 +180,7 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 		delete(T);
 		++L;
 	}
-	results(node_count, step_count);
+	step_results(node_count, step_count);
 	return false;
 }
 
@@ -229,7 +226,13 @@ TreeNode* new_node(const TreeNode* prev, int l_r_u_d)
 	return NULL;
 }
 
-void cur_step_data(std::stack<TreeNode*> fringer) {
+void step_cur_node(TreeNode* node) {
+	std::cout << "Depth: " << node->get_depth() << std::endl;
+	node->print_node();
+	std::cout << std::endl << "Possible moves:" << std::endl;
+}
+
+void step_cur_data(std::stack<TreeNode*> fringer) {
 	std::cout << std::endl << "Current fringe count: " << fringer.size() << std::endl;
 	std::cout << "New node will be: " << std::endl;
 	if (!fringer.empty())
@@ -238,31 +241,31 @@ void cur_step_data(std::stack<TreeNode*> fringer) {
 		std::cout << "There is no nodes left on current depth" << std::endl;
 }
 
-bool continue_() {
+bool step_continue() {
 	std::cout << std::endl << "Press enter for next step" << std::endl;
 	std::cout << "Press z to finish the algorithm" << std::endl;
 	bool correct_key = false;
 	char ch = _getch();
 	do {
 		switch (ch) {
-			case 'z': {
-				correct_key = true;
-				return false;
-				break;
-			}
-			case 13: { // enter
-				correct_key = true;
-				return true;
-				break;
-			}
-			default: {
+		case 'z': {
+			correct_key = true;
+			return false;
+			break;
+		}
+		case 13: { // enter
+			correct_key = true;
+			return true;
+			break;
+		}
+		default: {
 
-			}
+		}
 		}
 	} while (!correct_key);
 }
 
-void results(int node_count, int step_count) {
+void step_results(int node_count, int step_count) {
 	std::cout << std::endl << "Total memory units: " << node_count << std::endl;
 	std::cout << "Total steps: " << step_count << std::endl;
 }
