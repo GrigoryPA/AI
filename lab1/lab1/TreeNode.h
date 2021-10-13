@@ -1,9 +1,13 @@
 #include <iostream>
 class TreeNode
 {
+    struct position {
+        int x = 0;
+        int y = 0;
+    };
 public:
     int m_data[3][3];
-    int i, j;
+    position X_pos;
     int depth;
     TreeNode* m_left;
     TreeNode* m_right;
@@ -18,18 +22,19 @@ public:
         m_down = NULL;
         parent = (TreeNode*)_parent;
         depth = _parent != NULL ? _parent->depth + 1 : 1;
-        memcpy(m_data,_val,3*3*sizeof(int));
-        int* index = find_index(_val);
-        i = index[0];
-        j = index[1];
-        delete(index);
+		memcpy(m_data, _val, 3 * 3 * sizeof(int));
+        X_pos = *find_index(_val);
     }
-    int* find_index(int data[3][3])
+    position* find_index(int data[3][3])
     {
-        int index_i, index_j;
+        position cur_pos;
         for (int i = 0; i < 3; ++i)
             for (int j = 0; j < 3; ++j)
-                if (data[i][j] == -1) return new int[] {i, j};
+                if (data[i][j] == -1) { 
+                    cur_pos.x = j;
+                    cur_pos.y = i;
+                    return &cur_pos; 
+                }
         return NULL;
     }
     void print_node()

@@ -12,7 +12,7 @@ private:
     int m_size;//количество узлов
     int max_depth;//глубина
     void print_tree(TreeNode*);//вывести дерево
-    void delete_tree(TreeNode*);//удалить дерев
+    void delete_tree(TreeNode*);//удалить дерево
 public:
     TreeNode* m_root;//укзаатель на корень
     Tree(int[3][3]);//конструктор

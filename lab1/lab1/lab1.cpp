@@ -51,7 +51,7 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 	{
 		if (fringer.empty()) {//нет вершин - кандидатов для раскрытия
 			step_results(node_count, step_count);
-			return false; // решение не найдено !
+			return false; // решение не найдено!
 		}
 		else
 		{
@@ -67,9 +67,6 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 			}
 			else//раскрыть вершину и добавить новые вершины в дерево поиска;
 			{
-				//T->print_way(node);
-				//std::cout << node->depth << std::endl;
-				//std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
 				if (mode) {
 					step_cur_node(node);
 				}
@@ -108,9 +105,10 @@ bool depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 
 bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in) {
 	bool mode = mode_in;
-	int L = 1;
+	int cur_search_depth = 1;
 	int node_count = 0;
 	int step_count = 0;
+	bool search_deapth_reached = false;
 	TreeNode* node = NULL;
 	TreeNode* newnode = NULL;
 	while (true)
@@ -122,8 +120,6 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 		fringer.push(T->m_root);//добавление начального состояния в стек
 		while (!fringer.empty()) // основной цикл
 		{
-			//std::cout << "Depth limit = " << L << std::endl;
-			//выбрать в соответствии со стратегией терминальную вершину(лист) для раскрытия;
 			node = fringer.top();
 			fringer.pop();
 			step_count++;
@@ -138,11 +134,8 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 				if (mode) {
 					step_cur_node(node);
 				}
-				//T->print_way(node);
-				//std::cout << node->depth << std::endl;
-				//std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
 
-				if (node->depth < L)
+				if (node->depth < cur_search_depth)
 				{
 					for (int i = 4; i >= 0; --i)//перебор вариантов движения пустоты
 					{
@@ -167,9 +160,11 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 						}
 					}
 				}
-				else if (mode)
-					std::cout << "No moves" << std::endl;
-
+				else {
+					search_deapth_reached = true;
+					if (mode)
+						std::cout << "No moves" << std::endl;
+				}
 				if (mode) {
 					step_cur_data(fringer);
 					mode = step_continue();
@@ -178,10 +173,13 @@ bool iterative_depth_search(int start_pos[3][3], int finish_pos[3][3], bool mode
 			}
 		}
 		delete(T);
-		++L;
+		if (search_deapth_reached)
+			++cur_search_depth;
+		else {
+			step_results(node_count, step_count);
+			return false;
+		}
 	}
-	step_results(node_count, step_count);
-	return false;
 }
 
 //получение новой вершины выбором движения пустого квадрата
@@ -191,34 +189,38 @@ TreeNode* new_node(const TreeNode* prev, int l_r_u_d)
 	switch (l_r_u_d)
 	{
 	case LEFT:
-		if (prev->j - 1 >= 0)
+		if (prev->X_pos.x - 1 >= 0)
 		{
 			memcpy(new_data, prev->m_data, 3 * 3 * sizeof(int));
-			std::swap(new_data[prev->i][prev->j], new_data[prev->i][prev->j - 1]);
+			std::swap(new_data[prev->X_pos.y][prev->X_pos.x],
+				new_data[prev->X_pos.y][prev->X_pos.x - 1]);
 			return new TreeNode(prev, new_data);
 		}
 		break;
 	case RIGHT:
-		if (prev->j + 1 <= 2)
+		if (prev->X_pos.x + 1 <= 2)
 		{
 			memcpy(new_data, prev->m_data, 3 * 3 * sizeof(int));
-			std::swap(new_data[prev->i][prev->j], new_data[prev->i][prev->j + 1]);
+			std::swap(new_data[prev->X_pos.y][prev->X_pos.x],
+				new_data[prev->X_pos.y][prev->X_pos.x + 1]);
 			return new TreeNode(prev, new_data);
 		}
 		break;
 	case UP:
-		if (prev->i - 1 >= 0)
+		if (prev->X_pos.y - 1 >= 0)
 		{
 			memcpy(new_data, prev->m_data, 3 * 3 * sizeof(int));
-			std::swap(new_data[prev->i][prev->j], new_data[prev->i - 1][prev->j]);
+			std::swap(new_data[prev->X_pos.y][prev->X_pos.x], 
+				new_data[prev->X_pos.y - 1][prev->X_pos.x]);
 			return new TreeNode(prev, new_data);
 		}
 		break;
 	case DOWN:
-		if (prev->i + 1 <= 2)
+		if (prev->X_pos.y + 1 <= 2)
 		{
 			memcpy(new_data, prev->m_data, 3 * 3 * sizeof(int));
-			std::swap(new_data[prev->i][prev->j], new_data[prev->i + 1][prev->j]);
+			std::swap(new_data[prev->X_pos.y][prev->X_pos.x], 
+				new_data[prev->X_pos.y + 1][prev->X_pos.x]);
 			return new TreeNode(prev, new_data);
 		}
 		break;
