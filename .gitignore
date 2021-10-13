@@ -6,3 +6,7 @@ lab1/Release/
 lab1/lab1/x64/
 lab1/x64/
 lab1/.vs/
+*.exe
+*.ilk
+*.obj
+*.tlog
