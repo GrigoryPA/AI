@@ -6,6 +6,7 @@ public:
     int i, j;
     int depth;
     int h;
+    int f;
     TreeNode* m_left;
     TreeNode* m_right;
     TreeNode* m_up;
