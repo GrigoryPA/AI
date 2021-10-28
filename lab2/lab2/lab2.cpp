@@ -17,13 +17,17 @@ int h1_distance(int position1[3][3], int position2[3][3]);
 int h2_distance(int position1[3][3], int position2[3][3]);
 void find_index(int position[3][3], int value, int* x, int* y);
 bool a_star(int start_pos[3][3], int finish_pos[3][3], bool mode_in, bool heuristic_type);
+bool g_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in, bool heuristic_type);
 
 int main()
 {
 	int start_position[3][3] = { {-1,4,3},{6,2,1},{7,5,8} };
 	int finish_position[3][3] = { {1,2,3},{4,-1,5},{6,7,8} };
-	//std::cout << h1_distance(start_position, finish_position) << std::endl;
-	//std::cout << h2_distance(start_position, finish_position) << std::endl;
+
+	std::regex pattern_type("[Gg]");
+	std::string type;
+	std::cout << "Greedy or A*? (G/A) ";
+	std::cin >> type;
 
 	std::regex pattern("[Yy]");
 	std::string mode;
@@ -36,11 +40,104 @@ int main()
 	std::cout << "h1 or h2? (1/2): ";
 	std::cin >> h_mode;
 
-	a_star(start_position, finish_position, std::regex_match(mode, pattern), std::regex_match(h_mode, pattern_h));
+	if (std::regex_match(type, pattern_type))
+		g_search(start_position, finish_position, std::regex_match(mode, pattern), std::regex_match(h_mode, pattern_h));
+	else
+		a_star(start_position, finish_position, std::regex_match(mode, pattern), std::regex_match(h_mode, pattern_h));
 		
 	system("pause");
 	system("cls");
 	return 0;
+}
+
+
+/* Жадный поиск.
+int start_pos[3][3] - стартовая позиция,
+int finish_pos[3][3] - финишная позиция,
+bool mode_in - включить/отключить вывод информации в консоль,
+bool heuristic_type - вид эвристики соответственно: true - h1, false - h2.
+*/
+bool g_search(int start_pos[3][3], int finish_pos[3][3], bool mode_in, bool heuristic_type) {
+	bool mode = mode_in;
+	int node_count = 0;
+	int step_count = 0;
+	Tree* T = new Tree(start_pos); // Инициализация дерева поиска начальным состоянием задачи
+	TreeNode* node = NULL;
+	TreeNode* newnode = NULL;
+	std::list<TreeNode*> sorter = std::list<TreeNode*>(); // вектор для сортировки вершин
+	sorter.push_back(T->m_root); //добавление начального состояния в стек
+	while (true) // основной цикл
+	{
+		if (sorter.empty()) {//нет вершин - кандидатов для раскрытия
+			step_results(node_count, step_count);
+			return false; // решение не найдено !
+		}
+		else
+		{
+			//выбрать в соответствии со стратегией терминальную вершину (лист) для раскрытия;
+			node = sorter.back();
+			sorter.pop_back();
+			step_count++;
+			if (memcmp(node->m_data, finish_pos, 3 * 3 * sizeof(int)) == 0)//вершина содержит целевое состояние
+			{
+				T->print_way(node);
+				step_results(node_count, step_count);
+				return true;
+			}
+			else //раскрыть вершину и добавить новые вершины в дерево поиска;
+			{
+				//T->print_way(node);
+				//std::cout << node->depth << std::endl;
+				//std::cout << "----------checking-new-nodes----------------------------------" << std::endl;
+				if (mode) {
+					step_cur_node(node);
+				}
+				for (int i = 4; i >= 0; --i)//перебор вариантов движения пустоты
+				{
+					newnode = new_node(node, i);
+					if (newnode != NULL)
+					{
+						if (mode)
+							newnode->print_node();
+						if (T->find(newnode->m_data) == false)
+						{
+							if (heuristic_type)
+								newnode->h = h1_distance(newnode->m_data, finish_pos);
+							else
+								newnode->h = h2_distance(newnode->m_data, finish_pos);
+							T->insert(node, newnode, i);
+
+							bool flag = false;
+							for (std::list<TreeNode*>::iterator iter = sorter.begin(); iter != sorter.end(); iter++) {
+								if ((*iter)->h < newnode->h) {
+									sorter.insert(iter, newnode);
+									flag = true;
+									break;
+								}
+							}
+							if (!flag)
+								sorter.push_back(newnode);
+							node_count++;
+							if (mode) {
+								std::cout << "h = " << newnode->h << std::endl;
+								std::cout << "Accepted" << std::endl;
+							}
+						}
+						else
+						{
+							if (mode)
+								std::cout << "Denied" << std::endl;
+						}
+					}
+				}
+				if (mode) {
+					step_cur_data(sorter);
+					mode = step_continue();
+					system("cls");
+				}
+			}
+		}
+	}
 }
 
 /* Поиск А*.
@@ -101,7 +198,7 @@ bool a_star(int start_pos[3][3], int finish_pos[3][3], bool mode_in, bool heuris
 							
 							bool flag = false;
 							for (std::list<TreeNode*>::iterator iter = sorter.begin(); iter != sorter.end(); iter++) {
-								if ((*iter)->f + (*iter)->h < newnode->f + newnode->h) {
+								if ((*iter)->g + (*iter)->h < newnode->g + newnode->h) {
 									sorter.insert(iter, newnode);
 									flag = true;
 									break;
@@ -111,7 +208,7 @@ bool a_star(int start_pos[3][3], int finish_pos[3][3], bool mode_in, bool heuris
 								sorter.push_back(newnode);
 							node_count++;
 							if (mode) {
-								std::cout << "f+h = " << newnode->f + newnode->h << std::endl;
+								std::cout << "g+h = " << newnode->g + newnode->h << std::endl;
 								std::cout << "Accepted" << std::endl;
 							}
 						}
@@ -173,7 +270,7 @@ TreeNode* new_node(const TreeNode* prev, int l_r_u_d)
 		break;
 	}
 	if (result)
-		result->f = prev->f + 1;
+		result->g = prev->g + 1;
 	return result;
 }
 
@@ -185,7 +282,15 @@ void step_cur_node(TreeNode* node) {
 
 void step_cur_data(std::list<TreeNode*> sorter) {
 	std::cout << std::endl << "Current fringe count: " << sorter.size() << std::endl;
-	std::cout << "New node will be: " << std::endl;
+	if (sorter.size() != 0) {
+		std::cout << std::endl << "Last elements in fringe: " << std::endl;
+		int count = 0;
+		for (std::list<TreeNode*>::iterator iter = sorter.begin(); iter != sorter.end() && count < 3; iter++) {
+			(*iter)->print_node();
+			std::cout << "g=" << (*iter)->g << ", h=" << (*iter)->h << std::endl;
+		}
+	}
+	std::cout << std::endl << "New node will be: " << std::endl;
 	if (!sorter.empty())
 		sorter.back()->print_node();
 	else

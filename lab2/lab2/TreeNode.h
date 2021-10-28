@@ -5,8 +5,7 @@ public:
     int m_data[3][3];
     int i, j;
     int depth;
-    int h;
-    int f;
+    int g, h;
     TreeNode* m_left;
     TreeNode* m_right;
     TreeNode* m_up;
