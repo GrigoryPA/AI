@@ -26,30 +26,12 @@
 )
 
 (defglobal 
-  ?*TimeStart* = 0
-)
-
-(defglobal 
-  ?*TimeStop* = 0
-)
-
-(defglobal 
   ?*TotalStepsCount* = 0
 )
 
 (defglobal 
   ?*TotalNodesCount* = 0
 )
-
-(defglobal 
-  ?*TimeStart* = 0
-)
-
-(deffunction TimeStartFunc()
- (if (= ?*TimeStart* 0) then
-	(bind ?*TimeStart* (time))
- )
-) 
 
 (deffunction F(?Vertex ?X ?Y) 
 
@@ -144,15 +126,14 @@
 )
 ;;задаем начальное положение
 (deffacts start
-  (min (W 0 6 3 4 8 0 1 7 2 5))
-  (Field (LeftTop 6)        (MiddleTop 3)    (RightTop 4)
-         (LeftMiddle 2)     (TrueMiddle 5) (RightMiddle 8)
-         (LeftBottom 7)     (MiddleBottom 1) (RightBottom 0)
-         (Level 0);;это корень дерева
-         (From 0) (Exp (W 0 6 3 4 8 0 1 7 2 5)) (Id (Get_Id))
+  (min (W 0 0 4 3 1 8 5 7 6 2))
+  (Field (LeftTop 0)        (MiddleTop 4)    (RightTop 3)
+         (LeftMiddle 6)     (TrueMiddle 2)   (RightMiddle 1)
+         (LeftBottom 7)     (MiddleBottom 5) (RightBottom 8)
+         (Level 0)
+         (From 0) (Exp (W 0 0 4 3 1 8 5 7 6 2)) (Id (Get_Id))
   ) 
 )
-
 
 ;; правило дл€ исключени€ повтор€ющихс€ ситуаций
 ;; у этого правила самый высокий приоритет;
@@ -167,10 +148,8 @@
  	(RightMiddle ?RM0&:(= ?RM0 ?RM1)) (LeftBottom ?LB0&:(= ?LB0 ?LB1))
  	(MiddleBottom ?MB0&:(= ?MB0 ?MB1)) (RightBottom ?RB0&:(= ?RB0 ?RB1)))
  =>
- (bind ?*TimeStart* )
  (bind ?*TotalNodesCount* (- ?*TotalNodesCount* 1))
  (retract ?f0)
- (TimeStartFunc)
 )
 
  
@@ -477,9 +456,9 @@
 (defrule errors;;на случай, если в программе допущены ошибки с перестановками
   (declare (salience 1000))
   (Field 
-         (LeftTop ?LT)    (MiddleTop ?MT) (RightTop ?RT)
-     (LeftMiddle ?LM) (TrueMiddle ?MM) (RightMiddle ?RM)
-     (LeftBottom ?LB) (MiddleBottom ?MB) (RightBottom ?RB))
+         (LeftTop ?LT)    (MiddleTop ?MT)    (RightTop ?RT)
+         (LeftMiddle ?LM) (TrueMiddle ?MM)   (RightMiddle ?RM)
+         (LeftBottom ?LB) (MiddleBottom ?MB) (RightBottom ?RB))
   (test (or (= ?LT ?MT) (= ?LT ?RT) (= ?LT ?LM) (= ?LT ?MM) (= ?LT ?RM) (= ?LT ?LB) (= ?LT ?MB) (= ?LT ?RB) (= ?MT ?RT) (= ?MT ?LM) (= ?MT ?MM) (= ?MT ?RM) (= ?MT ?LB) (= ?MT ?MB) (= ?MT ?RB) (= ?RT ?LM) (= ?RT ?MM) (= ?RT ?RM) (= ?RT ?LB) (= ?RT ?MB) (= ?RT ?RB) (= ?LM ?MM) (= ?LM ?RM) (= ?LM ?LB) (= ?LM ?MB) (= ?LM ?RB) (= ?MM ?RM) (= ?MM ?LB) (= ?MM ?MB) (= ?MM ?RB) (= ?RM ?LB) (= ?RM ?MB) (= ?RM ?RB) (= ?LB ?MB) (= ?LB ?RB) (= ?MB ?RB)))
 =>
  (printout t "error" crlf)
@@ -522,9 +501,7 @@
   (not (Field(State 0|2)))
 =>
   (halt)
-  (bind ?*TimeStop* (time))
   (printout t "no solutions" crlf)
-  (printout t "Time = " (- ?*TimeStop* ?*TimeStart*) crlf)
 )
  
 ;;делаем остановку если решение есть
@@ -533,9 +510,7 @@
   (Field(State 2))
 =>
   (halt)
-  (bind ?*TimeStop* (time))
   (printout t "found solution" crlf)
-  (printout t "Time = " (- ?*TimeStop* ?*TimeStart*) crlf)
   (printout t "Steps = " ?*TotalStepsCount* crlf)
   (printout t "Nodes = " ?*TotalNodesCount* crlf)
 )
