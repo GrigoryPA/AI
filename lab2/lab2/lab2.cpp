@@ -283,9 +283,9 @@ void step_cur_node(TreeNode* node) {
 void step_cur_data(std::list<TreeNode*> sorter) {
 	std::cout << std::endl << "Current fringe count: " << sorter.size() << std::endl;
 	if (sorter.size() != 0) {
-		std::cout << std::endl << "Last elements in fringe: " << std::endl;
+		std::cout << std::endl << "Elements with min f in fringe: " << std::endl;
 		int count = 0;
-		for (std::list<TreeNode*>::iterator iter = sorter.begin(); iter != sorter.end() && count < 3; iter++) {
+		for (std::list<TreeNode*>::reverse_iterator iter = sorter.rbegin(); iter != sorter.rend() && count < 3; iter++, count++) {
 			(*iter)->print_node();
 			std::cout << "g=" << (*iter)->g << ", h=" << (*iter)->h << std::endl;
 		}

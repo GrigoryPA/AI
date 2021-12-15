@@ -1,0 +1,5 @@
+﻿  lab2.cpp
+D:\Github\AI\lab2\lab2\TreeNode.h(30,13): warning C4101: index_i: неиспользованная локальная переменная
+D:\Github\AI\lab2\lab2\TreeNode.h(30,22): warning C4101: index_j: неиспользованная локальная переменная
+D:\Github\AI\lab2\lab2\lab2.cpp(322): warning C4715: step_continue: значение возвращается не при всех путях выполнения
+  lab2.vcxproj -> D:\Github\AI\lab2\lab2\Debug\lab2.exe
