@@ -1,6 +1,10 @@
 ;; 0 - h1, 1 - h2
 (defglobal 
-  ?*Toggle* = 1
+  ?*Metric* = 1
+)
+
+(defglobal 
+  ?*Algorithm* = 1
 )
 
 (deftemplate Field
@@ -66,8 +70,13 @@
 ;целевая функция: количество шагов до текущего хода+количество цифр, стоящих не на своем месте
 (deffunction W(?Level ?LeftTop ?MiddleTop ?RightTop ?RightMiddle ?RightBottom ?MiddleBottom ?LeftBottom ?LeftMiddle ?TrueMiddle)
   
-   (bind ?a ?Level)
-  (if (= ?*Toggle* 0) then
+  (if (= ?*Algorithm* 1) then
+    (bind ?a ?Level)
+  )
+   (if (= ?*Algorithm* 0) then
+    (bind ?a 0)
+  )
+  (if (= ?*Metric* 0) then
   	(if (not (= ?LeftTop 1)) then
     		(bind ?a (+ 1 ?a))
   	)
@@ -94,18 +103,18 @@
   	)
   ) 
 
-  (if (= ?*Toggle* 1) then
-	(bind ?a (+ (F ?LeftTop 0 0 ) ?a))
-	(bind ?a (+ (F ?LeftMiddle 0 1) ?a))
-	(bind ?a (+ (F ?LeftBottom 0 2) ?a))
+  (if (= ?*Metric* 1) then
+    (bind ?a (+ (F ?LeftTop 0 0 ) ?a))
+    (bind ?a (+ (F ?LeftMiddle 0 1) ?a))
+    (bind ?a (+ (F ?LeftBottom 0 2) ?a))
 
-	(bind ?a (+ (F ?RightTop 2 0) ?a))
-	(bind ?a (+ (F ?RightMiddle 2 1) ?a))
-	(bind ?a (+ (F ?RightBottom 2 2) ?a))
+    (bind ?a (+ (F ?RightTop 2 0) ?a))
+    (bind ?a (+ (F ?RightMiddle 2 1) ?a))
+    (bind ?a (+ (F ?RightBottom 2 2) ?a))
 
-	(bind ?a (+ (F ?MiddleTop 1 0) ?a))
-	(bind ?a (+ (F ?TrueMiddle 1 1) ?a))
-	(bind ?a (+ (F ?MiddleBottom 1 2) ?a))
+    (bind ?a (+ (F ?MiddleTop 1 0) ?a))
+    (bind ?a (+ (F ?TrueMiddle 1 1) ?a))
+    (bind ?a (+ (F ?MiddleBottom 1 2) ?a))
   )
   ?a
 )
@@ -122,7 +131,9 @@
 	(initial-fact)
 =>
 	(printout t crlf "Введите метрику (h1 - 0 / h2 - 1): ")
- 	(bind ?*Toggle* (read))
+ 	(bind ?*Metric* (read))
+  (printout t crlf "Жадный или A* (жадный - 0 / A* - 1): ")
+ 	(bind ?*Algorithm* (read))
 )
 ;;задаем начальное положение
 (deffacts start
