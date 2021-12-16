@@ -17,14 +17,14 @@
   (slot LeftBottom(type NUMBER))
   (slot MiddleBottom(type NUMBER))
   (slot RightBottom(type NUMBER))
-  (slot Level(type NUMBER));;задает уровень в дереве
+  (slot Level(type NUMBER));;   
   (slot Id(type NUMBER) (default 0))
-  (slot State(type NUMBER) (default 0));;0 - не рассматривалось, 1 - рассмотрено 2 - соответствует решению
+  (slot State(type NUMBER) (default 0));;0 -  , 1 -  2 -  
   (slot From (type NUMBER))
-  (slot Exp (type NUMBER));;значение целевой функции
+  (slot Exp (type NUMBER));;  
 )
  
-;глобальная переменная
+; 
 (defglobal 
   ?*Id* = 0
 )
@@ -67,7 +67,7 @@
 	?a
 )
  
-;целевая функция: количество шагов до текущего хода+количество цифр, стоящих не на своем месте
+; :     + ,     
 (deffunction W(?Level ?LeftTop ?MiddleTop ?RightTop ?RightMiddle ?RightBottom ?MiddleBottom ?LeftBottom ?LeftMiddle ?TrueMiddle)
   
   (if (= ?*Algorithm* 1) then
@@ -119,35 +119,34 @@
   ?a
 )
 
-;; определяет идентификатор (чтобы можно найти элементы в последовательности)
+;;   (     )
 (deffunction Get_Id()
   (bind ?*Id* (+ ?*Id* 1))
   ?*Id*
 )
  
-;;выбор метрики
+;; 
 (defrule data-input
   (declare (salience 10000))
 	(initial-fact)
 =>
-	(printout t crlf "Введите метрику (h1 - 0 / h2 - 1): ")
+	(printout t crlf "  (h1 - 0 / h2 - 1): ")
  	(bind ?*Metric* (read))
-  (printout t crlf "Жадный или A* (жадный - 0 / A* - 1): ")
+  (printout t crlf "  A* ( - 0 / A* - 1): ")
  	(bind ?*Algorithm* (read))
-)
-;;задаем начальное положение
-(deffacts start
-  (min (W 0 0 4 3 1 8 5 7 6 2))
-  (Field (LeftTop 0)        (MiddleTop 4)    (RightTop 3)
+  (assert (min (W 0 0 4 3 1 8 5 7 6 2)))
+  (assert (Field (LeftTop 0)        (MiddleTop 4)    (RightTop 3)
          (LeftMiddle 6)     (TrueMiddle 2)   (RightMiddle 1)
          (LeftBottom 7)     (MiddleBottom 5) (RightBottom 8)
          (Level 0)
          (From 0) (Exp (W 0 0 4 3 1 8 5 7 6 2)) (Id (Get_Id))
-  ) 
+         )
+  )
+  (bind ?*TotalNodesCount* (+ ?*TotalNodesCount* 1))
 )
 
-;; правило для исключения повторяющихся ситуаций
-;; у этого правила самый высокий приоритет;
+;;     
+;;      ;
 (defrule move_circle
 (declare (salience 1000))
  ?f1 <- (Field (State 1) (LeftTop ?LT1) (MiddleTop ?MT1) (RightTop ?RT1)
@@ -164,8 +163,8 @@
 )
 
  
-;;выбираем узлы из множества Open, и создаем соответствующие пути из него
-;;для этого создается 9 правил с одинаковым приоритетом, что дает случайность
+;;    Open,      
+;;   9    ,   
 (defrule make_new_path_LeftTop
   (declare (salience 100))
   ?fmin <- (min ?min)
@@ -456,7 +455,7 @@
  
 (defrule find_min
   (declare (salience 150))
-;;приоритет ниже чем у правила исключающего циклы и выше чем у правил порождения новых ходов
+;;              
   ?fmin<-(min ?min)
   (Field (Exp ?E& :(< ?E ?min)) (State 0))
 =>
@@ -464,7 +463,7 @@
  (assert (min ?E))
 )
  
-(defrule errors;;на случай, если в программе допущены ошибки с перестановками
+(defrule errors;; ,       
   (declare (salience 1000))
   (Field 
          (LeftTop ?LT)    (MiddleTop ?MT)    (RightTop ?RT)
@@ -476,7 +475,7 @@
  (halt)
 )
  
-;;если нашли решение, то выделяем его
+;;  ,   
 (defrule start_select_answer
   (declare (salience 500))
   ?f<-(Field (LeftTop 1)    (MiddleTop 2) (RightTop 3)
@@ -497,7 +496,7 @@
   (assert (Id ?NewId))
 )
  
-;;удаляем остальные
+;; 
 (defrule delete_not_answer
   (declare (salience 400))
   (Field (State 2))
@@ -506,7 +505,7 @@
   (retract ?f)
 )
  
-;;делаем остановку если решений нет
+;;    
 (defrule Stop_1
   (declare (salience 200))
   (not (Field(State 0|2)))
@@ -515,7 +514,7 @@
   (printout t "no solutions" crlf)
 )
  
-;;делаем остановку если решение есть
+;;    
 (defrule Stop_2
   (declare (salience 200))
   (Field(State 2))
