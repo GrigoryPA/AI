@@ -2,7 +2,7 @@
 (defglobal 
   ?*Metric* = 1
 )
-
+;; Greedy - 0, A* - 1
 (defglobal 
   ?*Algorithm* = 1
 )
@@ -17,14 +17,14 @@
   (slot LeftBottom(type NUMBER))
   (slot MiddleBottom(type NUMBER))
   (slot RightBottom(type NUMBER))
-  (slot Level(type NUMBER));;˜˜˜˜˜˜ ˜˜˜˜˜˜˜ ˜ ˜˜˜˜˜˜
+  (slot Level(type NUMBER));;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   (slot Id(type NUMBER) (default 0))
-  (slot State(type NUMBER) (default 0));;0 - ˜˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜, 1 - ˜˜˜˜˜˜˜˜˜˜˜ 2 - ˜˜˜˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜
+  (slot State(type NUMBER) (default 0));;0 - ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 1 - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2 - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   (slot From (type NUMBER))
-  (slot Exp (type NUMBER));;˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜
+  (slot Exp (type NUMBER));;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 )
  
-;˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜
+;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 (defglobal 
   ?*Id* = 0
 )
@@ -67,7 +67,7 @@
 	?a
 )
  
-;˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜: ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜ ˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜˜+˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜, ˜˜˜˜˜˜˜ ˜˜ ˜˜ ˜˜˜˜˜ ˜˜˜˜˜
+;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 (deffunction W(?Level ?LeftTop ?MiddleTop ?RightTop ?RightMiddle ?RightBottom ?MiddleBottom ?LeftBottom ?LeftMiddle ?TrueMiddle)
   
   (if (= ?*Algorithm* 1) then
@@ -119,21 +119,17 @@
   ?a
 )
 
-;; ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜ (˜˜˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜˜˜˜ ˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜)
+;; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 (deffunction Get_Id()
   (bind ?*Id* (+ ?*Id* 1))
   ?*Id*
 )
  
-;;˜˜˜˜˜ ˜˜˜˜˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 (defrule data-input
   (declare (salience 10000))
 	(initial-fact)
 =>
-	(printout t crlf "˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜ (h1 - 0 / h2 - 1): ")
- 	(bind ?*Metric* (read))
-  (printout t crlf "˜˜˜˜˜˜ ˜˜˜ A* (˜˜˜˜˜˜ - 0 / A* - 1): ")
- 	(bind ?*Algorithm* (read))
   (assert (min (W 0 0 4 3 1 8 5 7 6 2)))
   (assert (Field (LeftTop 0)        (MiddleTop 4)    (RightTop 3)
          (LeftMiddle 6)     (TrueMiddle 2)   (RightMiddle 1)
@@ -145,8 +141,8 @@
   (bind ?*TotalNodesCount* (+ ?*TotalNodesCount* 1))
 )
 
-;; ˜˜˜˜˜˜˜ ˜˜˜ ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜
-;; ˜ ˜˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜;
+;; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+;; ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
 (defrule move_circle
 (declare (salience 1000))
  ?f1 <- (Field (State 1) (LeftTop ?LT1) (MiddleTop ?MT1) (RightTop ?RT1)
@@ -163,8 +159,8 @@
 )
 
  
-;;˜˜˜˜˜˜˜˜ ˜˜˜˜ ˜˜ ˜˜˜˜˜˜˜˜˜ Open, ˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜ ˜˜ ˜˜˜˜
-;;˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ 9 ˜˜˜˜˜˜ ˜ ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜, ˜˜˜ ˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Open, ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+;;ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 (defrule make_new_path_LeftTop
   (declare (salience 100))
   ?fmin <- (min ?min)
@@ -455,27 +451,16 @@
  
 (defrule find_min
   (declare (salience 150))
-;;˜˜˜˜˜˜˜˜˜ ˜˜˜˜ ˜˜˜ ˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜ ˜ ˜˜˜˜ ˜˜˜ ˜ ˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
   ?fmin<-(min ?min)
   (Field (Exp ?E& :(< ?E ?min)) (State 0))
 =>
  (retract ?fmin)
  (assert (min ?E))
 )
+
  
-(defrule errors;;˜˜ ˜˜˜˜˜˜, ˜˜˜˜ ˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜ ˜ ˜˜˜˜˜˜˜˜˜˜˜˜˜˜
-  (declare (salience 1000))
-  (Field 
-         (LeftTop ?LT)    (MiddleTop ?MT)    (RightTop ?RT)
-         (LeftMiddle ?LM) (TrueMiddle ?MM)   (RightMiddle ?RM)
-         (LeftBottom ?LB) (MiddleBottom ?MB) (RightBottom ?RB))
-  (test (or (= ?LT ?MT) (= ?LT ?RT) (= ?LT ?LM) (= ?LT ?MM) (= ?LT ?RM) (= ?LT ?LB) (= ?LT ?MB) (= ?LT ?RB) (= ?MT ?RT) (= ?MT ?LM) (= ?MT ?MM) (= ?MT ?RM) (= ?MT ?LB) (= ?MT ?MB) (= ?MT ?RB) (= ?RT ?LM) (= ?RT ?MM) (= ?RT ?RM) (= ?RT ?LB) (= ?RT ?MB) (= ?RT ?RB) (= ?LM ?MM) (= ?LM ?RM) (= ?LM ?LB) (= ?LM ?MB) (= ?LM ?RB) (= ?MM ?RM) (= ?MM ?LB) (= ?MM ?MB) (= ?MM ?RB) (= ?RM ?LB) (= ?RM ?MB) (= ?RM ?RB) (= ?LB ?MB) (= ?LB ?RB) (= ?MB ?RB)))
-=>
- (printout t "error" crlf)
- (halt)
-)
- 
-;;˜˜˜˜ ˜˜˜˜˜ ˜˜˜˜˜˜˜, ˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 (defrule start_select_answer
   (declare (salience 500))
   ?f<-(Field (LeftTop 1)    (MiddleTop 2) (RightTop 3)
@@ -496,7 +481,7 @@
   (assert (Id ?NewId))
 )
  
-;;˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 (defrule delete_not_answer
   (declare (salience 400))
   (Field (State 2))
@@ -505,7 +490,7 @@
   (retract ?f)
 )
  
-;;˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 (defrule Stop_1
   (declare (salience 200))
   (not (Field(State 0|2)))
@@ -514,13 +499,15 @@
   (printout t "no solutions" crlf)
 )
  
-;;˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜
+;;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 (defrule Stop_2
   (declare (salience 200))
   (Field(State 2))
 =>
   (halt)
   (printout t "found solution" crlf)
+  (printout t "Algorithm (Greedy - 0, A* - 1) = " ?*Algorithm* crlf)
+  (printout t "Metric (0 - h1, 1 - h2) = " ?*Metric* crlf)
   (printout t "Steps = " ?*TotalStepsCount* crlf)
   (printout t "Nodes = " ?*TotalNodesCount* crlf)
 )
